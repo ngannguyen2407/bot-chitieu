@@ -3,13 +3,17 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, Callb
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
-
-TOKEN = "8732865907:AAGpdEXIw3To_YBW3r-tEm2ZF8U3os02v3U"
+import os
+import json
+TOKEN = os.environ["8732865907:AAGpdEXIw3To_YBW3r-tEm2ZF8U3os02v3U"]
 
 scope = ["https://spreadsheets.google.com/feeds",
          "https://www.googleapis.com/auth/drive"]
-
-creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+import os
+import json
+creds_dict = json.loads(os.environ["GOOGLE_CREDENTIALS"])
+creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+client = gspread.authorize(creds)
 client = gspread.authorize(creds)
 sheet = client.open("CHI_TIEU").sheet1
 
