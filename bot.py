@@ -129,3 +129,17 @@ app.add_handler(CommandHandler("thang", thang))
 app.add_handler(CallbackQueryHandler(chon_loai))
 
 app.run_polling()
+import threading
+from flask import Flask
+
+app_web = Flask(__name__)
+
+@app_web.route("/")
+def home():
+    return "Bot đang chạy!"
+
+def run_web():
+    app_web.run(host="0.0.0.0", port=10000)
+
+# chạy web song song bot
+threading.Thread(target=run_web).start()
