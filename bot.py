@@ -12,7 +12,16 @@ scope = ["https://spreadsheets.google.com/feeds",
 import os
 import json
 creds_dict = json.loads(os.environ["GOOGLE_CREDENTIALS"])
+import os
+import json
+scope = ["https://spreadsheets.google.com/feeds",
+         "https://www.googleapis.com/auth/drive"]
+
+creds_dict = json.loads(os.environ["GOOGLE_CREDENTIALS"])
 creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+client = gspread.authorize(creds)
+
+sheet = client.open("CHI_TIEU").sheet1
 client = gspread.authorize(creds)
 client = gspread.authorize(creds)
 sheet = client.open("CHI_TIEU").sheet1
@@ -143,3 +152,17 @@ def run_web():
 
 # chạy web song song bot
 threading.Thread(target=run_web).start()
+import threading
+from flask import Flask
+
+app_web = Flask(__name__)
+
+@app_web.route("/")
+def home():
+    return "Bot đang chạy!"
+
+def run_web():
+    app_web.run(host="0.0.0.0", port=10000)
+
+threading.Thread(target=run_web).start()
+app.run_polling()
